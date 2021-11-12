@@ -1,5 +1,6 @@
 const fs = require("fs");
 const http = require("http")
+const url = require('url')
 
 //blocking sysnchronous way
 
@@ -36,7 +37,11 @@ const http = require("http")
  //CREATING SERVER
 
 const server = http.createServer((req, res) => {
-  res.end("Hello World");
+    const pathName = req.url;
+    console.log(pathName)
+    if (pathName === '/home') res.end("home")
+    else if(pathName == "/overview") res.end("Over view")
+//   res.end("Hello World");
 });
 
 server.listen('8000', '127.0.0.1', () => {
