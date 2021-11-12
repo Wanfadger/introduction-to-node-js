@@ -18,3 +18,14 @@ fs.readFile("txt/input.txt", "utf-8", (error, data) => {
 });
 
 console.log("after");
+
+fs.readFile("txt/start.txt", "utf-8", (error, data1) => {
+  fs.readFile(`txt/${data1}.txt`, "utf-8", (error, dat2) => {
+    fs.readFile(`txt/append.txt`, "utf-8", (error, data3) => {
+      fs.writeFile(`txt/final.txt`, `${dat2} . \n ${data3}`, (error, data) => {
+        if (error) console.log("something wrong happened");
+        console.log("success");
+      });
+    });
+  });
+});
