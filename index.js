@@ -1,6 +1,8 @@
 const fs = require("fs");
 const http = require("http");
 const url = require("url");
+const slugify = require('slugify')
+
 const replaceTemplate =  require("./dev-data/modules/replaceTemplate")
 
 //blocking sysnchronous way
@@ -42,10 +44,13 @@ const templateProduct = fs.readFileSync(`${__dirname}/templates/product.html`, "
 
 
 
-
 //to avoid reading the file each time a requests comes in , use sysnchronous read outside the server
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
 const products = JSON.parse(data)
+
+let slugNames = products.map((p) => slugify(p.productName , {lower:true}));
+console.log(slugNames)
+
 
 //__dirname location of current file
 const server = http.createServer((req, res) => {
