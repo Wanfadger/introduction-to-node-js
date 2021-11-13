@@ -35,20 +35,71 @@ const url = require("url");
 /////////////////////
 //CREATING SERVER
 
+//template files
+const templateCard = fs.readFileSync(`${__dirname}/templates/template-card.html`, "utf-8");
+const templateOverview = fs.readFileSync(`${__dirname}/templates/overview.html`, "utf-8");
+const templateProduct = fs.readFileSync(`${__dirname}/templates/product.html`, "utf-8");
+
+const replaceTemplate = (product, template) => {
+  let output = template.replace(/{%PRODUCT_NAME%}/g, product.productName);
+  output = output.replace(/{%PRODUCT_IMAGE%}/g, product.image);
+  output = output.replace(/{%PRODUCT_QUANTITY%}/g, product.quantity);
+  output = output.replace(/{%PRODUCT_NUTRIENTS%}/g, product.image);
+  output = output.replace(/{%PRODUCT_PRICE%}/g, product.image);
+  output = output.replace(/{%FROM%}/g, product.image);
+  output = output.replace(/{%PRODUCT_ID%}/g, product.id);
+  output = output.replace(/{%PRODUCT_DESCRIPTION%}/g, product.description);
+
+  if (!product.organic) output = output.replace(/{%NOT_ORGANIC%}/g, "not-organic");
+  
+  return output
+}
+
+
 //to avoid reading the file each time a requests comes in , use sysnchronous read outside the server
-const data = fs.readFileSync(`${__dirname}/dev-data/data.json` , "utf-8");
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
+const products = JSON.parse(data)
 
 //__dirname location of current file
 const server = http.createServer((req, res) => {
   const pathName = req.url;
-  // console.log(pathName)
+  //  console.log(products)
   // if (pathName === '/home') res.end("home")
   // else if(pathName == "/overview") res.end("Over view")
   // fs.readFile(`${__dirname}/dev-data/data.json`, "utf-8", (error, data) => {
   //   res.end(data);
   // });
 
-  res.end(data)
+  //overview
+  if (pathName === "/" || pathName === "/overview") {
+   
+    const htmlCards = products.map((product) =>
+      replaceTemplate(product, templateCard)
+    ).join();
+    // console.log(htmlCards)
+
+    let overviewOutput = templateOverview.replace(/{%PRODUCT_CARDS%}/g , htmlCards); 
+
+     res.setHeader("200", { "Content-type": "text/html" });
+    res.end(overviewOutput);
+  }
+  
+  //product
+  else if (pathName === "/product") {
+     res.end("This is product"); 
+  }
+  
+    //api
+  else if (pathName === "/api") {
+    res.setHeader("200" , {"Content-type":"application/json"})
+      res.end(data);
+  }
+    
+    //not found
+  else {
+    res.setHeader("404", {})
+    res.end("Page Not Found")
+  }
 });
 
 server.listen("8000", "127.0.0.1", () => {
