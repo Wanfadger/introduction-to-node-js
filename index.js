@@ -19,7 +19,6 @@ const replaceTemplate =  require("./dev-data/modules/replaceTemplate")
 // fs.readFile("txt/input.txt", "utf-8", (error, data) => {
 //   console.log(data);
 // });
-
 // console.log("after");
 
 // fs.readFile("txt/start.txt", "utf-8", (error, data1) => {
