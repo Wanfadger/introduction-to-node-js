@@ -1,6 +1,7 @@
 const fs = require("fs");
 const http = require("http");
 const url = require("url");
+const replaceTemplate =  require("./dev-data/modules/replaceTemplate")
 
 //blocking sysnchronous way
 
@@ -40,20 +41,7 @@ const templateCard = fs.readFileSync(`${__dirname}/templates/template-card.html`
 const templateOverview = fs.readFileSync(`${__dirname}/templates/overview.html`, "utf-8");
 const templateProduct = fs.readFileSync(`${__dirname}/templates/product.html`, "utf-8");
 
-const replaceTemplate = (product, template) => {
-  let output = template.replace(/{%PRODUCT_NAME%}/g, product.productName);
-  output = output.replace(/{%PRODUCT_IMAGE%}/g, product.image);
-  output = output.replace(/{%PRODUCT_QUANTITY%}/g, product.quantity);
-  output = output.replace(/{%PRODUCT_NUTRIENTS%}/g, product.image);
-  output = output.replace(/{%PRODUCT_PRICE%}/g, product.image);
-  output = output.replace(/{%FROM%}/g, product.image);
-  output = output.replace(/{%PRODUCT_ID%}/g, product.id);
-  output = output.replace(/{%PRODUCT_DESCRIPTION%}/g, product.description);
 
-  if (!product.organic) output = output.replace(/{%NOT_ORGANIC%}/g, "not-organic");
-  
-  return output
-}
 
 
 //to avoid reading the file each time a requests comes in , use sysnchronous read outside the server
