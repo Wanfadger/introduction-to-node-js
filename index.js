@@ -48,7 +48,9 @@ const templateProduct = fs.readFileSync(`${__dirname}/templates/product.html`, "
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
 const products = JSON.parse(data)
 
-let slugNames = products.map((p) => slugify(p.productName , {lower:true}));
+let slugNames = products.map((p) =>
+  slugify(p.productName, { lower: true, replacement :">"})
+);
 console.log(slugNames)
 
 
