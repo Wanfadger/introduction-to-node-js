@@ -62,7 +62,10 @@ const products = JSON.parse(data)
 
 //__dirname location of current file
 const server = http.createServer((req, res) => {
-  const pathName = req.url;
+
+  const { pathname, query } = url.parse(req.url, true);
+  console.log(pathname);
+  console.log(query);
   //  console.log(products)
   // if (pathName === '/home') res.end("home")
   // else if(pathName == "/overview") res.end("Over view")
@@ -71,34 +74,42 @@ const server = http.createServer((req, res) => {
   // });
 
   //overview
-  if (pathName === "/" || pathName === "/overview") {
-   
-    const htmlCards = products.map((product) =>
-      replaceTemplate(product, templateCard)
-    ).join();
+  if (pathname === "/" || pathname === "/overview") {
+    const htmlCards = products
+      .map((product) => replaceTemplate(product, templateCard))
+      .join();
     // console.log(htmlCards)
 
-    let overviewOutput = templateOverview.replace(/{%PRODUCT_CARDS%}/g , htmlCards); 
+    let overviewOutput = templateOverview.replace(
+      /{%PRODUCT_CARDS%}/g,
+      htmlCards
+    );
 
-     res.setHeader("200", { "Content-type": "text/html" });
+  res.setHeader("200", { "Content-type": "text/html" });  
     res.end(overviewOutput);
   }
-  
+
   //product
-  else if (pathName === "/product") {
-     res.end("This is product"); 
-  }
-  
-    //api
-  else if (pathName === "/api") {
-    res.setHeader("200" , {"Content-type":"application/json"})
-      res.end(data);
-  }
+  else if (pathname === `/product`) {
+    const id = query.id
+    const product = products.find((p) => p.id === Number(id));
+    // console.log(product)
+    let productOutput = replaceTemplate(product, templateProduct)
     
-    //not found
+    res.setHeader("200", { "Content-type": "text/html" });
+    res.end(productOutput);
+  }
+
+  //api
+  else if (pathname === "/api") {
+    res.setHeader("200", { "Content-type": "application/json" });
+    res.end(data);
+  }
+
+  //not found
   else {
-    res.setHeader("404", {})
-    res.end("Page Not Found")
+    res.setHeader("404", {});
+    res.end("Page Not Found");
   }
 });
 
