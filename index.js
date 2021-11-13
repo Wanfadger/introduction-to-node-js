@@ -1,6 +1,6 @@
 const fs = require("fs");
-const http = require("http")
-const url = require('url')
+const http = require("http");
+const url = require("url");
 
 //blocking sysnchronous way
 
@@ -32,20 +32,25 @@ const url = require('url')
 //   });
 // });
 
-
 /////////////////////
- //CREATING SERVER
+//CREATING SERVER
 
+//to avoid reading the file each time a requests comes in , use sysnchronous read outside the server
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json` , "utf-8");
+
+//__dirname location of current file
 const server = http.createServer((req, res) => {
-    const pathName = req.url;
-    console.log(pathName)
-    if (pathName === '/home') res.end("home")
-    else if(pathName == "/overview") res.end("Over view")
-//   res.end("Hello World");
+  const pathName = req.url;
+  // console.log(pathName)
+  // if (pathName === '/home') res.end("home")
+  // else if(pathName == "/overview") res.end("Over view")
+  // fs.readFile(`${__dirname}/dev-data/data.json`, "utf-8", (error, data) => {
+  //   res.end(data);
+  // });
+
+  res.end(data)
 });
 
-server.listen('8000', '127.0.0.1', () => {
-    console.log('server started on port 8000')
-})
- 
-
+server.listen("8000", "127.0.0.1", () => {
+  console.log("server started on port 8000");
+});
