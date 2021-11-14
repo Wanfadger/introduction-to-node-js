@@ -1,6 +1,16 @@
 const EventEmitter = require("events");
 
-const myEvent = new EventEmitter();
+// const myEvent = new EventEmitter();
+
+//extending the EventEMitter
+class SaleEvent extends EventEmitter{
+    constructor() {
+        super()
+    }
+}
+
+
+const myEvent = new SaleEvent();
 
 myEvent.on("onSale", () => console.log("There was a new sale"));
 myEvent.on("onSale", () => console.log("Customer name Wanfadger"));
