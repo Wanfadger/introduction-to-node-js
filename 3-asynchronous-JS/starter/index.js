@@ -10,7 +10,7 @@ fs.readFile(`${__dirname}/dog.txt`, "utf-8", (e, data) => {
   superagent
     .get(`https://dog.ceo/api/breed/${data}/images/random`)
     .then((res) => {
-      fs.writeFile("dogImage.txt", response.body.message, (err) => {
+      fs.writeFile("dogImage.txt", res.body.message, (err) => {
         if (err) return console.log(err.message);
       });
     })

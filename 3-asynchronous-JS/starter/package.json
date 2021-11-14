@@ -1,0 +1,26 @@
+{
+  "name": "starter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Wanfadger/introduction-to-node-js.git"
+  },
+  "author": "wanfadger",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Wanfadger/introduction-to-node-js/issues"
+  },
+  "homepage": "https://github.com/Wanfadger/introduction-to-node-js#readme",
+  "dependencies": {
+    "superagent": "^6.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
