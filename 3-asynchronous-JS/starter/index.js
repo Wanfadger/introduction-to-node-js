@@ -58,4 +58,29 @@ const getDogPic = async () => {
   }
 };
 
-getDogPic();
+
+//getDogPic();
+
+const getDogPic2 = async () => {
+  try {
+    const readData = await fileReaderPromise();
+
+    const response = await superagent.get(
+      `https://dog.ceo/api/breed/${readData}/images/random`
+    );
+
+    await fileWriterPromise(response.body.message);
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+
+  return "READY"
+};
+
+
+//returning valiue from async-await wihhout first accessing its as a promise
+(async () => {
+  const x = await getDogPic2()
+  console.log(`Returned ${x}`)
+})()
