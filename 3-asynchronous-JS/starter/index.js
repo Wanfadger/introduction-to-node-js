@@ -35,10 +35,27 @@ const fileWriterPromise = (image) => {
   });
 };
 
-fileReaderPromise()
-  .then((data) =>
-    superagent.get(`https://dog.ceo/api/breed/${data}/images/random`)
-  )
-  .then((response) => fileWriterPromise(response.body.message))
-  .then((res) => console.log(res))
-  .catch((error) => console.error(error.message));
+// fileReaderPromise()
+//   .then((data) =>
+//     superagent.get(`https://dog.ceo/api/breed/${data}/images/random`)
+//   )
+//   .then((response) => fileWriterPromise(response.body.message))
+//   .then((res) => console.log(res))
+//   .catch((error) => console.error(error.message));
+
+////////////////Using Async-Await
+const getDogPic = async () => {
+  try {
+    const readData = await fileReaderPromise();
+
+    const response = await superagent.get(
+      `https://dog.ceo/api/breed/${readData}/images/random`
+    );
+
+    await fileWriterPromise(response.body.message);
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+getDogPic();
